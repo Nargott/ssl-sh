@@ -39,6 +39,10 @@ openssl x509 -req -days 365 -in ${OUTPATH}.csr -CA ${OUTDIR}/${CAFILENAME}.crt -
 echo ">>> Pack client key and certificate to be used in browsers"
 openssl pkcs12 -export -in ${OUTPATH}.crt -inkey ${OUTPATH}.key -passout pass:${PASS} -passin pass:${CAPASS} -certfile ${OUTDIR}/${CAFILENAME}.crt -out ${OUTPATH}.p12
 
+echo ">>> Pack client key and certificate to pem-format"
+#openssl pkcs12 -in ${OUTPATH}.p12 -passout pass:${PASS} -passin pass:${PASS} -out ${OUTPATH}.pem -clcerts
+cat client01.crt client01.key > client01.pem
+
 echo ${NEW_SERIAL} > ${OUTDIR}/db/serial
 
 echo ">>> $0 Done."
