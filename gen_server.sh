@@ -42,6 +42,7 @@ openssl req -new -key ${OUTPATH}.key -passin pass:${PASS} -subj ${SUBJ} -out ${O
 
 echo ">>> Self Signing"
 openssl x509 -req -days 365 -in ${OUTPATH}.csr -CA ${OUTDIR}/${CAFILENAME}.crt -CAkey ${OUTDIR}/${CAFILENAME}.key -passin pass:${CAPASS} -set_serial ${OLD_SERIAL} -out ${OUTPATH}.crt
+rm ${OUTPATH}.csr
 
 echo ">>> Remove password from server key"
 openssl rsa -in ${OUTPATH}.key -passin pass:${PASS} -out ${OUTPATH}.nopass.key

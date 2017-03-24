@@ -15,6 +15,6 @@ SUBJ=$3
 echo ">>> CA Key and Certificate"
 openssl genrsa -aes256 -passout pass:$PASS -out $OUTPATH.key 4096
 openssl req -new -x509 -days 365 -key $OUTPATH.key -passin pass:$PASS -subj $SUBJ -out $OUTPATH.crt
-openssl rsa -in $OUTPATH.key -passin pass:$PASS -out $OUTPATH.key
+#openssl rsa -in $OUTPATH.key -passin pass:$PASS -out $OUTPATH.key
 
 echo ">>> $0 Done."

@@ -35,13 +35,14 @@ openssl req -new -key ${OUTPATH}.key -passin pass:${PASS} -subj ${SUBJ} -out ${O
 echo ">>> Sign client certificate"
 #openssl ca -config ca.config -in ${OUTPATH}.csr -out ${OUTPATH}.crt -batch
 openssl x509 -req -days 365 -in ${OUTPATH}.csr -CA ${OUTDIR}/${CAFILENAME}.crt -CAkey ${OUTDIR}/${CAFILENAME}.key -passin pass:${CAPASS} -set_serial ${OLD_SERIAL} -out ${OUTPATH}.crt
+rm ${OUTPATH}.csr
 
 echo ">>> Pack client key and certificate to be used in browsers"
 openssl pkcs12 -export -in ${OUTPATH}.crt -inkey ${OUTPATH}.key -passout pass:${PASS} -passin pass:${CAPASS} -certfile ${OUTDIR}/${CAFILENAME}.crt -out ${OUTPATH}.p12
 
 echo ">>> Pack client key and certificate to pem-format"
 #openssl pkcs12 -in ${OUTPATH}.p12 -passout pass:${PASS} -passin pass:${PASS} -out ${OUTPATH}.pem -clcerts
-cat client01.crt client01.key > client01.pem
+cat ${OUTPATH}.crt ${OUTPATH}.key > ${OUTPATH}.pem
 
 echo ${NEW_SERIAL} > ${OUTDIR}/db/serial
 
